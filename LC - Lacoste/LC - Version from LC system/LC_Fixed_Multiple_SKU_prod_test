@@ -64,56 +64,100 @@ T,192,40,V,33,134,0,1,1,1,B,L,0,0|
 {B,1,N,1|E,0,0,1,1,0,1|
 
 1,"FROM:"|
-2,"ARTIVERSE APPAREL SINGAPORE PTE.LTD"|
-3,"36 ROBINSON ROAD,"|
-4,"#20-01, CITY HOUSE"|
-5,"068877"|
-6,"(SG) SINGAPORE"|
+2,"@Model.ShipFromName"|
+3,"@Model.ShipFromAddress1"|
+4,"@Model.ShipFromAddress2"|
+5,"@Model.ShipFromCity"|
+@{
+    var countryCode = Model.ShipFormCountryCoe ?? "";
+    var countryName = Model.ShipFormCountryName ?? "";
+    var shipFromCountry = $"({countryCode}) {countryName}";
+}
+6,"@shipFromCountry"|
 
 7,"TO:"|
-8,"DEVANLAY VENTURES DO BRASIL LTDA"|
-9,"Estrada Antonio Agostinho Barbosa,"|
-10,"1300 -Gleba C - Dos Pires - Extrema"|
-11,"CEP 37.640-000 MINAS GERAIS"|
-12,"(BR) BRAZIL"|
+8,"@Model.ShipToName"|
+9,"@Model.ShipToAddress1"|
+10,"@Model.ShipToAddress2"|
+11,"@Model.ShipToCity"|
+@{
+    var toCountryCode = Model.ShipToCountryCode ?? "";
+    var toCountryName = Model.ShipToCountryName ?? "";
+    var shipToCountry = $"({toCountryCode}) {toCountryName}";
+}
+12,"@shipToCountry"|
 
 
 
 131,"SSCC: "|
-132,"0357067"|
-133,"4865803515"|
-134,"7"|
+@{
+    var cartonNo = Model.CartonNo ?? "";
+
+    var part1 = cartonNo.Length >= 7  ? cartonNo.Substring(0, 7)  : cartonNo;
+    var part2 = cartonNo.Length >= 17 ? cartonNo.Substring(7, 10) : "";
+    var part3 = cartonNo.Length >= 18 ? cartonNo.Substring(17, 1) : "";
+}
+132,"@part1"|
+133,"@part2"|
+134,"@part3"|
 
 141,"Internal Ref. : "|
-142,"7283771A0001"|
+@{
+    var po = Model.CUSTOMERPO ?? "";
+    var cartonType = "A";
+
+    var seq = Model.SEQ;
+    var seqText = seq.ToString().PadLeft(4, '0');
+
+    var code152 = $"{po}{cartonType}";
+    var code142 = $"{code152}{seqText}";
+}
+142,"@code142"|
+
 
 151,"D.N.:"|
-152,"7283771A"|
-153,"P.O: "|
-154,"7283771"|
+152,"@code152"|
+153,"P.O.: "|
+154,"@Model.CUSTOMERPO"|
 
 161,"CONTENT"|
 162,"QTY"|
 
-171,"HH1885-23 | 031 | 34"|
-172,"16"|
+@{
+    int index = 171;
 
-173,"HH1885-23 | 031 | 30"|
-174,"11"|
+    for (int i = 0; i < 4; i++)
+    {
+        var d = Model.DETAILS.Count > i ? Model.DETAILS[i] : null;
 
-175,"HH1885-23 | 031 | 40"|
-176,"17"|
+        var style = d?.STYLECODE ?? "";
+        var label = d?.LABEL ?? "";        // nếu LABEL khác tên thì đổi lại
+        var color = d?.COLORCODE ?? "";
+        var size  = d?.SIZE ?? "";
+        var qty   = d != null ? d.SCANQTY.ToString() : "";
 
-177,"HH1885-23 | 031 | 28"|
-178,"1"|
+        var lineText = $"{style}-{label} | {color} | {size}";
+
+        @Raw($"{index++},\"{lineText}\"|\r\n")
+        @Raw($"{index++},\"{qty}\"|\r\n")
+    }
+}
+
 
 181,"GROSS:"|
-182,"` 13.65 Kg"|
+182,"@Model.GROSSWEIGHT"|
 183,"NET:"|
-184," 12.28 Kg"|
+184,"@Model.NETWEIGHT"|
 
-191,"00035706748658035157"|
-192,"(00)035706748658035157"|
+@{
+    var cartonNo = Model.CartonNo ?? "";
+    var sscc = cartonNo.PadLeft(18, '0');
+
+    var code191 = $"00{sscc}";
+    var code192 = $"(00){sscc}";
+}
+191,"@code191"|
+192,"@code192"|
 
 
 }
