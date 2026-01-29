@@ -1,0 +1,80 @@
+{F,1,A,R,E,600,400,"Lanka-LC"|
+T,1,10,V,86,10,0,1,1,1,B,L,0,0|
+T,2,10,V,86,110,0,1,1,1,B,L,0,0|
+T,3,10,V,86,200,0,1,1,1,B,L,0,0|
+T,4,10,V,86,290,0,1,1,1,B,L,0,0|
+T,5,10,V,86,40,0,1,1,1,B,L,0,|
+T,6,10,V,86,165,0,1,1,1,B,L,0,|
+T,7,10,V,86,250,0,1,1,1,B,L,0,|
+T,8,10,V,86,338,0,1,1,1,B,L,0,|
+T,9,10,V,70,10,0,1,1,1,B,L,0,0|
+T,10,10,V,55,10,0,1,1,1,B,L,0,0|
+T,11,10,V,40,10,0,1,1,1,B,L,0,0|
+T,12,10,V,25,10,0,1,1,1,B,L,0,0|
+T,13,10,V,10,10,0,1,1,1,B,L,0,0|
+T,14,10,V,70,100,0,1,1,1,B,L,0,0|
+T,15,10,V,55,100,0,1,1,1,B,L,0,0|
+T,16,10,V,40,100,0,1,1,1,B,L,0,0|
+T,17,10,V,25,100,0,1,1,1,B,L,0,0|
+T,18,10,V,10,100,0,1,1,1,B,L,0,0|
+T,19,10,V,70,190,0,1,1,1,B,L,0,0|
+T,20,10,V,55,190,0,1,1,1,B,L,0,0|
+T,21,10,V,40,190,0,1,1,1,B,L,0,0|
+T,22,10,V,25,190,0,1,1,1,B,L,0,0|
+T,23,10,V,10,190,0,1,1,1,B,L,0,0|
+T,24,10,V,70,265,0,1,1,1,B,L,0,0|
+T,25,10,V,55,265,0,1,1,1,B,L,0,0|
+T,26,10,V,40,265,0,1,1,1,B,L,0,0|
+T,27,10,V,25,265,0,1,1,1,B,L,0,0|
+T,28,10,V,10,265,0,1,1,1,B,L,0,0|
+T,29,10,V,70,320,0,1,1,1,B,L,0,0|
+T,30,10,V,55,320,0,1,1,1,B,L,0,0|
+}
+{B,1,N,1|E,0,0,1,1,0,1|
+1,"PO#: "|
+2,"Carton#: "|
+3,"Gr Wgt: "|
+4,"Market:"|
+5,"@Model.CUSTOMERPO"|
+6,"@Model.SEQ"|
+7,"@Model.GROSSWEIGHT"|
+8,"@Model.MKT"|
+9,"STYLE"|
+@{
+int index = 10;
+for (int i = 0; i < 4; i++)
+{
+var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i ? Model.DETAILS[i].STYLECODE : "");
+@Raw(line)
+}
+}
+14,"COLOR"|
+@{
+index = 15;
+for (int i = 0; i < 4; i++)
+{
+var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i ? Model.DETAILS[i].COLORCODE : "");
+@Raw(line)
+}
+}
+19,"SIZE"|
+@{
+index = 20;
+for (int i = 0; i < 4; i++)
+{
+var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i ? Model.DETAILS[i].SIZE : "");
+@Raw(line)
+}
+}
+24,"Qty"|
+@{
+index = 25;
+for (int i = 0; i < 4; i++)
+{
+var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i ? Model.DETAILS[i].SCANQTY.ToString() : "");
+@Raw(line)
+}
+}
+29,"Pick No"|
+30,"@Model.PICKNO"|
+}
