@@ -46,9 +46,7 @@ T,116,20,V,26,256,0,1,1,1,B,L,0,0|
 
 
 T,555,20,V,6,12,0,1,1,1,B,L,0,0|
-T,666,15,V,6,125,0,1,1,1,B,L,0,0|
 T,777,5,V,6,180,0,1,1,1,B,L,0,0|
-T,888,5,V,6,252,0,3,1,1,B,L,0,0|
 
 L,V,98,10,0,280,6,"11111111"|
 L,V,80,10,0,280,6,"11111111"|
@@ -60,7 +58,7 @@ L,V,80,10,0,280,6,"11111111"|
 
 31,"PO#:"|
 41,"MKT:"|
-51,"MPS No:"|
+51,"Carton#:"|
 21,"Pick No:"|
 
 61,"STYLE"|
@@ -72,17 +70,10 @@ L,V,80,10,0,280,6,"11111111"|
 2,"@Model.PICKNO"|
 3,"@Model.CUSTOMERPO"|
 4,"@Model.MKT"|
-@{
-int index = 5;
-for (int i = 0; i < 1; i++)
-{
-var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i? Model.DETAILS[i].MPSNO : "");
-@Raw(line)
-}
-}
+5,"@Model.SEQ"|
 
 @{
-    index = 101;
+    int index = 101;
     for (int i = 0; i < 4; i++)
     {
         var detail = (Model.DETAILS.Count > i) ? Model.DETAILS[i] : null;
@@ -106,8 +97,6 @@ var line = string.Format(" {0},\"{1}\"|\r\n", index++, Model.DETAILS.Count > i? 
 121,"Weight:"|
 12,"@Model.GROSSWEIGHT"|
 
-555,"@Model.CARTONNO"|
-666,"Carton#:"|
-777,"@Model.SEQ"|
-888,"@Model.VariableQty"|
+555,"@Model.Date"|
+777,"@Model.Time"|
 }
